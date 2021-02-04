@@ -1,0 +1,22 @@
+{
+	"name": "@mpt/preact-router",
+	"version": "1.0.0",
+	"main": "./dist/index.js",
+	"scripts": {
+		"clean": "rimraf ./dist/**/* ./test_out/**/*",
+		"build": "npm run clean && tsc -p tsconfig-runtime.json",
+		"test": "npm run clean && tsc -p tsconfig-test.json && ava -v",
+		"test:dev": "npm run clean && tsc -p tsconfig-test.json && concurrently \"tsc -p tsconfig-test.json -w\" \"ava -w -v\"",
+		"prepack": "npm test && npm run build"
+	},
+	"devDependencies": {
+		"ava": "^3.15.0",
+		"concurrently": "^5.3.0",
+		"preact": "^10.5.12",
+		"rimraf": "^3.0.2",
+		"typescript": "^4.1.3"
+	},
+	"peerDependencies": {
+		"preact": "^10.0.0"
+	}
+}
