@@ -6,7 +6,7 @@
 		"strict": true,
 		"rootDir": ".",
 		"declaration": true,
-		"inlineSourceMap": true,
+		"sourceMap": true,
 		"jsx": "react-jsx",
 		"jsxImportSource": "preact"
 	},
