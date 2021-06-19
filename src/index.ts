@@ -1,4 +1,5 @@
 export * from "./debug-view";
+export * from "./hash-router";
 export * from "./history-router";
 export * from "./paths";
 export * from "./regexp-route";
