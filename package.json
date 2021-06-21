@@ -6,12 +6,14 @@
 		"clean": "rimraf ./dist/**/* ./test_out/**/*",
 		"build": "npm run clean && tsc -p tsconfig-runtime.json",
 		"test": "npm run clean && tsc -p tsconfig-test.json && ava -v",
-		"test:dev": "npm run clean && tsc -p tsconfig-test.json && concurrently \"tsc -p tsconfig-test.json -w\" \"ava -w -v\"",
+		"start": "npm run clean && tsc -p tsconfig-test.json && concurrently \"tsc -p tsconfig-test.json -w\" \"ava -w -v\"",
 		"prepack": "npm test && npm run build"
 	},
 	"devDependencies": {
+		"@types/jsdom": "^16.2.11",
 		"ava": "^3.15.0",
 		"concurrently": "^6.2.0",
+		"jsdom": "^16.6.0",
 		"preact": "^10.5.13",
 		"rimraf": "^3.0.2",
 		"typescript": "^4.3.4"

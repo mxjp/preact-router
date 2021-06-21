@@ -3,7 +3,13 @@
 export default {
 	files: [
 		"./test_out/test/**/*.js",
-		"!**/_*"
+		"!**/_*/**"
+	],
+	require: [
+		"./test_out/test/_env/index.js"
+	],
+	ignoredByWatcher: [
+		"./test_out/**/*"
 	],
 	concurrency: 4,
 	verbose: true
