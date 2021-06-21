@@ -11,18 +11,18 @@ interface State {
 	path: string;
 }
 
+function hashToPath() {
+	return normalizePath(location.hash.slice(1) || "/");
+}
+
 export class HashRouter extends Component<Props, State> {
 	public constructor() {
 		super();
-		this.state = {
-			path: normalizePath(location.hash.slice(1))
-		};
+		this.state = { path: hashToPath() };
 	}
 
 	public readonly onUpdatePath = () => {
-		this.setState({
-			path: normalizePath(location.hash.slice(1))
-		});
+		this.setState({ path: hashToPath() });
 	};
 
 	public componentDidMount() {
@@ -49,7 +49,7 @@ export const hashRouter: Router = {
 	push(path: string | string[]) {
 		path = typeof path === "string" ? normalizePath(path) : combinePath.apply(null, path);
 		if (location.hash.slice(1) !== path) {
-			location.hash = "#" + path;
+			location.hash = "#" + path.slice(1);
 		}
 	},
 
