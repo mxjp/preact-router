@@ -9,20 +9,33 @@ interface Props {
 
 interface State {
 	path: string;
+	params: URLSearchParams;
 }
 
-function hashToPath() {
-	return normalizePath(location.hash.slice(1) || "/");
+function getState(): State {
+	const path = location.hash.slice(1) || "/";
+	const searchStart = path.indexOf("?");
+	if (searchStart < 0) {
+		return {
+			path: normalizePath(path),
+			params: new URLSearchParams(),
+		};
+	} else {
+		return {
+			path: normalizePath(path.slice(0, searchStart)),
+			params: new URLSearchParams(path.slice(searchStart + 1)),
+		};
+	}
 }
 
 export class HashRouter extends Component<Props, State> {
 	public constructor() {
 		super();
-		this.state = { path: hashToPath() };
+		this.state = getState();
 	}
 
 	public readonly onUpdatePath = () => {
-		this.setState({ path: hashToPath() });
+		this.setState(getState());
 	};
 
 	public componentDidMount() {
@@ -37,7 +50,8 @@ export class HashRouter extends Component<Props, State> {
 		return <routerContext.Provider value={hashRouter}>
 			<routedContext.Provider value={{
 				path: "",
-				rest: state.path
+				rest: state.path,
+				params: state.params,
 			}}>
 				{props.children}
 			</routedContext.Provider>

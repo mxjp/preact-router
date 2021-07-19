@@ -10,6 +10,11 @@ export interface RoutedContext {
 	 * The normalized rest path to be routed in this context.
 	 */
 	readonly rest: string;
+
+	/**
+	 * An object with search params.
+	 */
+	readonly params: URLSearchParams;
 }
 
 export const routedContext = createContext<RoutedContext | undefined>(undefined);

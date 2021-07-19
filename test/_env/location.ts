@@ -30,6 +30,11 @@ export function polyfillLocation() {
 					window.dispatchEvent(new HashChangeEvent("hashchange"));
 				}
 			},
+
+			get search() { return currentURL.search },
+			set search(search: string) {
+				currentURL = Object.assign(new URL(currentURL.toString()), { search });
+			},
 		} as Location
 	});
 }

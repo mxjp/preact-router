@@ -3,8 +3,10 @@ import { ComponentRoute, routedContext, RouterView, StaticRoute } from "../src";
 import { routePairs } from "./_route-pairs";
 import { ContextReader, ContextWriter, useRender, waitFrame } from "./_utility";
 
+const params = new URLSearchParams();
+
 test("update routes on context changes", async t => {
-	const writer = new ContextWriter(routedContext, { path: "", rest: "/" });
+	const writer = new ContextWriter(routedContext, { path: "", rest: "/", params });
 
 	const routes: ComponentRoute[] = [
 		[new StaticRoute("/"), () => <>root</>],
@@ -17,7 +19,7 @@ test("update routes on context changes", async t => {
 		</writer.write>
 	</>, async ctx => {
 		t.is(ctx.html(), "root");
-		writer.value = { path: "", rest: "/foo" };
+		writer.value = { path: "", rest: "/foo", params };
 		await waitFrame();
 		t.is(ctx.html(), "foo");
 	});
@@ -38,9 +40,9 @@ for (const p of routePairs) {
 test("fallback", async t => {
 	const reader = new ContextReader(routedContext);
 	await useRender(() => <>
-		<routedContext.Provider value={{ path: "/foo", rest: "/bar" }}>
+		<routedContext.Provider value={{ path: "/foo", rest: "/bar", params }}>
 			<RouterView routes={[]} fallback={() => <reader.read />} />
 		</routedContext.Provider>
 	</>);
-	t.deepEqual(reader.value, { path: "/foo", rest: "/bar" });
+	t.deepEqual(reader.value, { path: "/foo", rest: "/bar", params });
 });

@@ -9,22 +9,26 @@ interface Props {
 
 interface State {
 	path: string;
+	params: URLSearchParams;
 }
 
 const routers = new Set<HistoryRouter>();
 
+function getState(): State {
+	return {
+		path: normalizePath(location.pathname),
+		params: new URLSearchParams(location.search.slice(1)),
+	};
+}
+
 export class HistoryRouter extends Component<Props, State> {
 	public constructor() {
 		super();
-		this.state = {
-			path: normalizePath(location.pathname)
-		};
+		this.state = getState();
 	}
 
 	public readonly onUpdatePath = () => {
-		this.setState({
-			path: normalizePath(location.pathname)
-		});
+		this.setState(getState());
 	};
 
 	public componentWillMount() {
@@ -41,7 +45,8 @@ export class HistoryRouter extends Component<Props, State> {
 		return <routerContext.Provider value={historyRouter}>
 			<routedContext.Provider value={{
 				path: "",
-				rest: state.path
+				rest: state.path,
+				params: state.params,
 			}}>
 				{props.children}
 			</routedContext.Provider>

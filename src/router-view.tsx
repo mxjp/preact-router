@@ -76,7 +76,8 @@ export function RouterView(props: RenderableProps<{
 			if (match !== null) {
 				return <routedContext.Provider value={{
 					path: combinePath(context.path, match.matched),
-					rest: match.rest
+					rest: match.rest,
+					params: context.params,
 				}}>
 					<RoutedComponent params={match.params} />
 				</routedContext.Provider>;

@@ -7,6 +7,6 @@ export function DebugView() {
 		return <code>no context</code>;
 	}
 	return <code>
-		path="{context.path}" rest="{context.rest}"
+		path="{context.path}" rest="{context.rest}" params="{context.params.toString()}"
 	</code>;
 }
