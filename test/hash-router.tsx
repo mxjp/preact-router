@@ -1,8 +1,7 @@
 import test from "ava";
 import { hashRouter, HashRouter, routedContext, routerContext } from "../src";
+import { noParams } from "./_route-pairs";
 import { ContextReader, useRender, waitFrame } from "./_utility";
-
-const params = new URLSearchParams();
 
 test.serial("updates context when on hash change", async t => {
 	const reader = new ContextReader(routedContext);
@@ -11,26 +10,26 @@ test.serial("updates context when on hash change", async t => {
 			<reader.read />
 		</HashRouter>
 	</>, async () => {
-		t.deepEqual(reader.value, { path: "", rest: "/", params });
+		t.deepEqual(reader.value, { path: "", rest: "/", ...noParams });
 
 		location.hash = "#foo";
 		await waitFrame();
-		t.deepEqual(reader.value, { path: "", rest: "/foo", params });
+		t.deepEqual(reader.value, { path: "", rest: "/foo", ...noParams });
 
 		hashRouter.push("/bar");
 		t.is(location.hash, "#bar");
 		await waitFrame();
-		t.deepEqual(reader.value, { path: "", rest: "/bar", params });
+		t.deepEqual(reader.value, { path: "", rest: "/bar", ...noParams });
 
 		hashRouter.push("baz");
 		t.is(location.hash, "#baz");
 		await waitFrame();
-		t.deepEqual(reader.value, { path: "", rest: "/baz", params });
+		t.deepEqual(reader.value, { path: "", rest: "/baz", ...noParams });
 
 		hashRouter.push("/");
 		t.is(location.hash, "");
 		await waitFrame();
-		t.deepEqual(reader.value, { path: "", rest: "/", params });
+		t.deepEqual(reader.value, { path: "", rest: "/", ...noParams });
 	});
 });
 

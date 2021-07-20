@@ -10,12 +10,15 @@ function staticPair(parent: RoutedContext, route: string, child: RoutedContext):
 	return { parent, child, route: new StaticRoute(route, true) };
 }
 
-const params = new URLSearchParams();
+export const noParams = {
+	params: new URLSearchParams(),
+	rawParams: "",
+};
 
 export const routePairs: RoutePair[] = [
-	staticPair({ path: "", rest: "/", params }, "/", { path: "/", rest: "/", params }),
-	staticPair({ path: "/", rest: "/", params }, "/", { path: "/", rest: "/", params }),
-	staticPair({ path: "", rest: "/foo", params }, "/", { path: "/", rest: "/foo", params }),
-	staticPair({ path: "", rest: "/bar/baz", params }, "/bar", { path: "/bar", rest: "/baz", params }),
-	staticPair({ path: "/foo", rest: "/bar/baz", params }, "/bar", { path: "/foo/bar", rest: "/baz", params }),
+	staticPair({ path: "", rest: "/", ...noParams }, "/", { path: "/", rest: "/", ...noParams }),
+	staticPair({ path: "/", rest: "/", ...noParams }, "/", { path: "/", rest: "/", ...noParams }),
+	staticPair({ path: "", rest: "/foo", ...noParams }, "/", { path: "/", rest: "/foo", ...noParams }),
+	staticPair({ path: "", rest: "/bar/baz", ...noParams }, "/bar", { path: "/bar", rest: "/baz", ...noParams }),
+	staticPair({ path: "/foo", rest: "/bar/baz", ...noParams }, "/bar", { path: "/foo/bar", rest: "/baz", ...noParams }),
 ];

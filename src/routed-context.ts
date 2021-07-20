@@ -15,6 +15,11 @@ export interface RoutedContext {
 	 * An object with search params.
 	 */
 	readonly params: URLSearchParams;
+
+	/**
+	 * The raw search params without questionmark.
+	 */
+	readonly rawParams: string;
 }
 
 export const routedContext = createContext<RoutedContext | undefined>(undefined);

@@ -1,9 +1,8 @@
 import test from "ava";
 import { HistoryRouter, historyRouter, routerContext, routedContext } from "../src";
 import { historyEntries } from "./_env/location";
+import { noParams } from "./_route-pairs";
 import { ContextReader, useRender, waitFrame } from "./_utility";
-
-const params = new URLSearchParams();
 
 test.serial("updates context on history change", async t => {
 	const reader = new ContextReader(routedContext);
@@ -12,22 +11,22 @@ test.serial("updates context on history change", async t => {
 			<reader.read />
 		</HistoryRouter>
 	</>, async () => {
-		t.deepEqual(reader.value, { path: "", rest: "/", params });
+		t.deepEqual(reader.value, { path: "", rest: "/", ...noParams });
 
 		historyRouter.push("/foo");
 		await waitFrame();
 		t.is(historyEntries.length, 1);
-		t.deepEqual(reader.value, { path: "", rest: "/foo", params });
+		t.deepEqual(reader.value, { path: "", rest: "/foo", ...noParams });
 
 		history.back();
 		await waitFrame();
 		t.is(historyEntries.length, 0);
-		t.deepEqual(reader.value, { path: "", rest: "/", params });
+		t.deepEqual(reader.value, { path: "", rest: "/", ...noParams });
 
 		historyRouter.replace("/bar");
 		await waitFrame();
 		t.is(historyEntries.length, 0);
-		t.deepEqual(reader.value, { path: "", rest: "/bar", params });
+		t.deepEqual(reader.value, { path: "", rest: "/bar", ...noParams });
 	});
 });
 

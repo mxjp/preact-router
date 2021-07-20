@@ -10,6 +10,7 @@ interface Props {
 interface State {
 	path: string;
 	params: URLSearchParams;
+	rawParams: string;
 }
 
 function getState(): State {
@@ -19,11 +20,14 @@ function getState(): State {
 		return {
 			path: normalizePath(path),
 			params: new URLSearchParams(),
+			rawParams: "",
 		};
 	} else {
+		const rawParams = path.slice(searchStart + 1);
 		return {
 			path: normalizePath(path.slice(0, searchStart)),
-			params: new URLSearchParams(path.slice(searchStart + 1)),
+			params: new URLSearchParams(rawParams),
+			rawParams
 		};
 	}
 }
@@ -52,6 +56,7 @@ export class HashRouter extends Component<Props, State> {
 				path: "",
 				rest: state.path,
 				params: state.params,
+				rawParams: state.rawParams,
 			}}>
 				{props.children}
 			</routedContext.Provider>

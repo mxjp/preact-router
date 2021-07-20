@@ -10,14 +10,17 @@ interface Props {
 interface State {
 	path: string;
 	params: URLSearchParams;
+	rawParams: string;
 }
 
 const routers = new Set<HistoryRouter>();
 
 function getState(): State {
+	const rawParams = location.search.slice(1);
 	return {
 		path: normalizePath(location.pathname),
-		params: new URLSearchParams(location.search.slice(1)),
+		params: new URLSearchParams(rawParams),
+		rawParams,
 	};
 }
 
@@ -47,6 +50,7 @@ export class HistoryRouter extends Component<Props, State> {
 				path: "",
 				rest: state.path,
 				params: state.params,
+				rawParams: state.rawParams,
 			}}>
 				{props.children}
 			</routedContext.Provider>

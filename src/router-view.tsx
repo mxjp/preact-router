@@ -66,7 +66,7 @@ export function RouterView(props: RenderableProps<{
 	if (context === undefined) {
 		throw new Error("RouterView must be used in a routed context");
 	}
-	const allInputs: any[] = [context.rest, props.routes, props.fallback];
+	const allInputs: any[] = [context.rest, context.rawParams, props.routes, props.fallback];
 	if (props.inputs) {
 		allInputs.push.apply(allInputs, props.inputs as any[]);
 	}
@@ -78,6 +78,7 @@ export function RouterView(props: RenderableProps<{
 					path: combinePath(context.path, match.matched),
 					rest: match.rest,
 					params: context.params,
+					rawParams: context.rawParams,
 				}}>
 					<RoutedComponent params={match.params} />
 				</routedContext.Provider>;
