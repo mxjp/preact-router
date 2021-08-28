@@ -55,3 +55,13 @@ test.serial("provides router implementation", async t => {
 	</>);
 	t.is(reader.value, hashRouter);
 });
+
+test.serial("invokes onNavigate listeners on hashchange", async t => {
+	let calls = 0;
+	const remove = hashRouter.onNavigate(() => calls++);
+	location.hash = "#foo";
+	t.is(calls, 1);
+	remove();
+	location.hash = "#bar";
+	t.is(calls, 1);
+});

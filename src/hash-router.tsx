@@ -74,5 +74,13 @@ export const hashRouter: Router = {
 
 	replace(path: string | string[]) {
 		return hashRouter.push(path);
+	},
+
+	onNavigate(listener) {
+		const wrapper = () => listener();
+		window.addEventListener("hashchange", wrapper, { capture: true, passive: true });
+		return () => {
+			window.removeEventListener("hashchange", wrapper, { capture: true });
+		};
 	}
 };

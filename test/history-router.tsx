@@ -51,3 +51,36 @@ test.serial("provides router implementation", async t => {
 	</>);
 	t.is(reader.value, historyRouter);
 });
+
+test.serial("invoke onNavigate listeners when push is used", async t => {
+	let calls = 0;
+	const remove = historyRouter.onNavigate(() => calls++);
+	historyRouter.push("/foo");
+	t.is(calls, 1);
+	remove();
+	historyRouter.push("/bar");
+	t.is(calls, 1);
+});
+
+test.serial("invoke onNavigate listeners when replace is used", async t => {
+	let calls = 0;
+	const remove = historyRouter.onNavigate(() => calls++);
+	historyRouter.replace("/foo");
+	t.is(calls, 1);
+	remove();
+	historyRouter.replace("/bar");
+	t.is(calls, 1);
+});
+
+test.serial("invoke onNavigate listeners when a popstate event is dispatched", async t => {
+	historyRouter.push("/foo");
+	historyRouter.push("/bar");
+
+	let calls = 0;
+	const remove = historyRouter.onNavigate(() => calls++);
+	history.back();
+	t.is(calls, 1);
+	remove();
+	history.back();
+	t.is(calls, 1);
+});

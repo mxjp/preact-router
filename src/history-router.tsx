@@ -15,6 +15,8 @@ interface State {
 
 const routers = new Set<HistoryRouter>();
 
+let onNavigateListeners: Set<() => void> | null = null;
+
 function getState(): State {
 	const rawParams = location.search.slice(1);
 	return {
@@ -64,6 +66,7 @@ export const historyRouter: Router = {
 		if (location.pathname !== path) {
 			history.pushState(history.state, document.title, path);
 			routers.forEach(router => router.onUpdatePath());
+			onNavigateListeners?.forEach(listener => listener());
 		}
 	},
 
@@ -72,6 +75,20 @@ export const historyRouter: Router = {
 		if (location.pathname !== path) {
 			history.replaceState(history.state, document.title, path);
 			routers.forEach(router => router.onUpdatePath());
+			onNavigateListeners?.forEach(listener => listener());
 		}
+	},
+
+	onNavigate(listener) {
+		if (onNavigateListeners === null) {
+			onNavigateListeners = new Set();
+			window.addEventListener("popstate", () => {
+				onNavigateListeners!.forEach(listener => listener());
+			}, { capture: true, passive: true });
+		}
+		onNavigateListeners.add(listener);
+		return () => {
+			onNavigateListeners!.delete(listener);
+		};
 	}
 };
