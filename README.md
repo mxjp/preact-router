@@ -86,6 +86,7 @@ function App() {
   return <>{value}</>;
 }
 ```
+*To see what can be done with manual routing, you can take a look at https://mxjp.de/ .*
 
 ## Nested Routing
 A router view provides information on the matched path to all of it's children, so that router views can be arbitrarily nested:
