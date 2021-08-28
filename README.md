@@ -169,3 +169,12 @@ render(
   document.body
 )
 ```
+
+<br>
+
+
+
+# Changelog
+
+## 3.1.0
++ Add `onNavigate` event to router interface.
