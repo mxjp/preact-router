@@ -4,8 +4,7 @@ This is meant to be an alternative for [preact-router](https://www.npmjs.com/pac
 _Note that this is **not a drop in replacement** for preact-router._
 
 ## Features
-+ `location.pathname` based routing.
-+ `location.hash` based routing search parameters in the hash.
++ history and hash based routing.
 + manual & custom route matching and formatting.
 + static & regular expression based routes.
 + nested router views.
