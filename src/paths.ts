@@ -29,6 +29,26 @@ export function combinePath(...components: string[]) {
 }
 
 /**
+ * Split a path by separators and ignore empty segments.
+ */
+export function splitPath(path: string) {
+	const segments: string[] = [];
+	for (let i = 0; i < path.length; ) {
+		const endIndex = path.indexOf("/", i);
+		if (endIndex < 0) {
+			segments.push(path.slice(i));
+			break;
+		} else {
+			if (endIndex > i) {
+				segments.push(path.slice(i, endIndex));
+			}
+			i = endIndex + 1;
+		}
+	}
+	return segments;
+}
+
+/**
  * Check if the specified path represents a directory.
  */
 export function isDirectory(path: string) {

@@ -1,5 +1,5 @@
 import test from "ava";
-import { combinePath, isDirectory, normalizePath } from "../src";
+import { combinePath, isDirectory, normalizePath, splitPath } from "../src";
 import { macro } from "./_utility";
 
 const norm = macro(
@@ -55,3 +55,21 @@ test(dir, "/foo", false);
 test(dir, "/", true);
 test(dir, "/foo/", true);
 test(dir, "foo/", true);
+
+const split = macro(
+	(input: string, output: string[]) => `splitPath "${input}" => (${output.join(", ")})`,
+	(t, input, output) => {
+		t.deepEqual(splitPath(input), output);
+	}
+);
+
+test(split, "", []);
+test(split, "/", []);
+test(split, "//", []);
+test(split, "foo", ["foo"]);
+test(split, "/foo", ["foo"]);
+test(split, "foo/", ["foo"]);
+test(split, "foo/bar", ["foo", "bar"]);
+test(split, "foo//bar", ["foo", "bar"]);
+test(split, "/foo/bar", ["foo", "bar"]);
+test(split, "foo/bar/", ["foo", "bar"]);

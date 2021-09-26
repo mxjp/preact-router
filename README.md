@@ -175,5 +175,8 @@ render(
 
 # Changelog
 
+## 3.2.0
++ Export `splitPath` function.
+
 ## 3.1.0
 + Add `onNavigate` event to router interface.
