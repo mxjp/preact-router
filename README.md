@@ -176,7 +176,9 @@ render(
 # Changelog
 
 ## 3.2.0
-+ Export `splitPath` function.
++ Add `splitPath` function.
++ Add `deriveRoutedContext` function.
++ Add `RoutePathMatch` interface without the params property that `RouteMatch` now extends.
 
 ## 3.1.0
 + Add `onNavigate` event to router interface.

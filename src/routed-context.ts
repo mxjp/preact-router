@@ -1,4 +1,5 @@
 import { createContext } from "preact";
+import { combinePath, RoutePathMatch } from ".";
 
 export interface RoutedContext {
 	/**
@@ -23,3 +24,15 @@ export interface RoutedContext {
 }
 
 export const routedContext = createContext<RoutedContext | undefined>(undefined);
+
+/**
+ * Derive a routed context value to be used as the value in the routed context provider.
+ */
+export function deriveRoutedContext(base: RoutedContext, match: RoutePathMatch): RoutedContext {
+	return {
+		path: combinePath(base.path, match.matched),
+		rest: match.rest,
+		params: base.params,
+		rawParams: base.rawParams,
+	};
+}

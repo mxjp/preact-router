@@ -1,14 +1,9 @@
 
-export interface RouteMatch {
+export interface RoutePathMatch {
 	/**
 	 * The matched normalized path.
 	 */
 	matched: string;
-
-	/**
-	 * The route parameters.
-	 */
-	params: string[];
 
 	/**
 	 * The unmatched normalized rest path.
@@ -16,6 +11,13 @@ export interface RouteMatch {
 	 * If the rest path is empty, trailing slashes from the previously matched path must be preserved.
 	 */
 	rest: string;
+}
+
+export interface RouteMatch extends RoutePathMatch {
+	/**
+	 * The route parameters.
+	 */
+	params: string[];
 }
 
 export interface Route {
