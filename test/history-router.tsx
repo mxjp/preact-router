@@ -2,11 +2,11 @@ import test from "ava";
 import { HistoryRouter, historyRouter, routerContext, routedContext } from "../src";
 import { historyEntries } from "./_env/location";
 import { noParams } from "./_route-pairs";
-import { ContextReader, useRender, waitFrame } from "./_utility";
+import { ContextReader, withRenderer, waitFrame } from "./_utility";
 
-test.serial("updates context on history change", async t => {
+test.serial.only("updates context on history change", async t => {
 	const reader = new ContextReader(routedContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<HistoryRouter>
 			<reader.read />
 		</HistoryRouter>
@@ -33,7 +33,7 @@ test.serial("updates context on history change", async t => {
 test.serial("parses search params if present", async t => {
 	location.search = "?bar=baz";
 	const reader = new ContextReader(routedContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<HistoryRouter>
 			<reader.read />
 		</HistoryRouter>
@@ -44,7 +44,7 @@ test.serial("parses search params if present", async t => {
 
 test.serial("provides router implementation", async t => {
 	const reader = new ContextReader(routerContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<HistoryRouter>
 			<reader.read />
 		</HistoryRouter>

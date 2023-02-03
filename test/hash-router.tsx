@@ -1,11 +1,11 @@
 import test from "ava";
 import { hashRouter, HashRouter, routedContext, routerContext } from "../src";
 import { noParams } from "./_route-pairs";
-import { ContextReader, useRender, waitFrame } from "./_utility";
+import { ContextReader, withRenderer, waitFrame } from "./_utility";
 
 test.serial("updates context when on hash change", async t => {
 	const reader = new ContextReader(routedContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<HashRouter>
 			<reader.read />
 		</HashRouter>
@@ -35,7 +35,7 @@ test.serial("updates context when on hash change", async t => {
 
 test.serial("parses search params if present", async t => {
 	const reader = new ContextReader(routedContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<HashRouter>
 			<reader.read />
 		</HashRouter>
@@ -48,7 +48,7 @@ test.serial("parses search params if present", async t => {
 
 test.serial("provides router implementation", async t => {
 	const reader = new ContextReader(routerContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<HashRouter>
 			<reader.read />
 		</HashRouter>

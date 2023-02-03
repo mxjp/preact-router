@@ -1,75 +1,82 @@
 import test from "ava";
 import { combinePath, isDirectory, normalizePath, splitPath } from "../src";
-import { macro } from "./_utility";
 
-const norm = macro(
-	(input: string, output: string) => `normalizePath "${input}" => "${output}"`,
-	(t, input, output) => {
+const normalizePathTest = test.macro({
+	exec(t, input: string, output: string) {
 		t.is(normalizePath(input), output);
-	}
-);
+	},
+	title(_, input) {
+		return `${normalizePath.name} ${JSON.stringify(input)}`;
+	},
+});
 
-test(norm, "", "");
-test(norm, "/", "/");
-test(norm, "foo", "/foo");
-test(norm, "foo/", "/foo/");
-test(norm, "/foo", "/foo");
-test(norm, "/foo/", "/foo/");
+test(normalizePathTest, "", "");
+test(normalizePathTest, "/", "/");
+test(normalizePathTest, "foo", "/foo");
+test(normalizePathTest, "foo/", "/foo/");
+test(normalizePathTest, "/foo", "/foo");
+test(normalizePathTest, "/foo/", "/foo/");
 
-const combine = macro(
-	(input: string[], output: string) => `combinePath ${JSON.stringify(input)} => "${output}"`,
-	(t, input, output) => {
+const combinePathTest = test.macro({
+	exec(t, input: string[], output: string) {
 		t.is(combinePath(...input), output);
-	}
-);
+	},
+	title(_, input) {
+		return `${combinePath.name} ${JSON.stringify(input)}`;
+	},
+});
 
-test(combine, [], "");
-test(combine, [""], "");
-test(combine, ["", ""], "");
-test(combine, ["/", ""], "/");
-test(combine, ["", "/"], "/");
-test(combine, ["/", "/"], "/");
-test(combine, ["foo"], "/foo");
-test(combine, ["foo/"], "/foo/");
-test(combine, ["/foo"], "/foo");
-test(combine, ["/foo/"], "/foo/");
-test(combine, ["", "foo"], "/foo");
-test(combine, ["/", "foo"], "/foo");
-test(combine, ["", "/foo"], "/foo");
-test(combine, ["/", "/foo"], "/foo");
-test(combine, ["foo", "bar"], "/foo/bar");
-test(combine, ["foo/", "bar"], "/foo/bar");
-test(combine, ["foo", "/bar"], "/foo/bar");
-test(combine, ["foo/", "/bar"], "/foo/bar");
-test(combine, ["foo", "bar/"], "/foo/bar/");
+test(combinePathTest, [], "");
+test(combinePathTest, [""], "");
+test(combinePathTest, ["", ""], "");
+test(combinePathTest, ["/", ""], "/");
+test(combinePathTest, ["", "/"], "/");
+test(combinePathTest, ["/", "/"], "/");
+test(combinePathTest, ["foo"], "/foo");
+test(combinePathTest, ["foo/"], "/foo/");
+test(combinePathTest, ["/foo"], "/foo");
+test(combinePathTest, ["/foo/"], "/foo/");
+test(combinePathTest, ["", "foo"], "/foo");
+test(combinePathTest, ["/", "foo"], "/foo");
+test(combinePathTest, ["", "/foo"], "/foo");
+test(combinePathTest, ["/", "/foo"], "/foo");
+test(combinePathTest, ["foo", "bar"], "/foo/bar");
+test(combinePathTest, ["foo/", "bar"], "/foo/bar");
+test(combinePathTest, ["foo", "/bar"], "/foo/bar");
+test(combinePathTest, ["foo/", "/bar"], "/foo/bar");
+test(combinePathTest, ["foo", "bar/"], "/foo/bar/");
 
-const dir = macro(
-	(input: string, output: boolean) => `isDirectory "${input}" => ${output}`,
-	(t, input, output) => {
+const isDirectoryTest = test.macro({
+	exec(t, input: string, output: boolean) {
 		t.is(isDirectory(input), output);
-	}
-);
+	},
+	title(_, input) {
+		return `${isDirectory.name} ${JSON.stringify(input)}`;
+	},
+});
 
-test(dir, "", false);
-test(dir, "/foo", false);
-test(dir, "/", true);
-test(dir, "/foo/", true);
-test(dir, "foo/", true);
+test(isDirectoryTest, "", false);
+test(isDirectoryTest, "/foo", false);
+test(isDirectoryTest, "/", true);
+test(isDirectoryTest, "/foo/", true);
+test(isDirectoryTest, "foo/", true);
 
-const split = macro(
-	(input: string, output: string[]) => `splitPath "${input}" => (${output.join(", ")})`,
-	(t, input, output) => {
+const splitPathTest = test.macro({
+	exec(t, input: string, output: string[]) {
 		t.deepEqual(splitPath(input), output);
-	}
-);
+	},
+	title(_, input) {
+		return `${splitPath.name} ${JSON.stringify(input)}`;
+	},
+});
 
-test(split, "", []);
-test(split, "/", []);
-test(split, "//", []);
-test(split, "foo", ["foo"]);
-test(split, "/foo", ["foo"]);
-test(split, "foo/", ["foo"]);
-test(split, "foo/bar", ["foo", "bar"]);
-test(split, "foo//bar", ["foo", "bar"]);
-test(split, "/foo/bar", ["foo", "bar"]);
-test(split, "foo/bar/", ["foo", "bar"]);
+test(splitPathTest, "", []);
+test(splitPathTest, "/", []);
+test(splitPathTest, "//", []);
+test(splitPathTest, "foo", ["foo"]);
+test(splitPathTest, "/foo", ["foo"]);
+test(splitPathTest, "foo/", ["foo"]);
+test(splitPathTest, "foo/bar", ["foo", "bar"]);
+test(splitPathTest, "foo//bar", ["foo", "bar"]);
+test(splitPathTest, "/foo/bar", ["foo", "bar"]);
+test(splitPathTest, "foo/bar/", ["foo", "bar"]);

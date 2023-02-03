@@ -1,7 +1,7 @@
 import test from "ava";
 import { ComponentRoute, routedContext, RouterView, StaticRoute } from "../src";
 import { noParams, routePairs } from "./_route-pairs";
-import { ContextReader, ContextWriter, useRender, waitFrame } from "./_utility";
+import { ContextReader, ContextWriter, withRenderer, waitFrame } from "./_utility";
 
 test("update routes on context changes", async t => {
 	const writer = new ContextWriter(routedContext, { path: "", rest: "/", ...noParams });
@@ -12,7 +12,7 @@ test("update routes on context changes", async t => {
 		[new StaticRoute("/foo"), () => <>foo<reader.read /></>],
 	];
 
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<writer.write>
 			<RouterView routes={routes} />
 		</writer.write>
@@ -33,7 +33,7 @@ test("update routes on context changes", async t => {
 for (const p of routePairs) {
 	test(`provide child context: ${JSON.stringify(p.parent)}, ${JSON.stringify(p.route.format)} => ${JSON.stringify(p.child)}`, async t => {
 		const reader = new ContextReader(routedContext);
-		await useRender(() => <>
+		await withRenderer(() => <>
 			<routedContext.Provider value={p.parent}>
 				<RouterView routes={[[p.route, () => <reader.read />]]} />
 			</routedContext.Provider>
@@ -44,7 +44,7 @@ for (const p of routePairs) {
 
 test("fallback", async t => {
 	const reader = new ContextReader(routedContext);
-	await useRender(() => <>
+	await withRenderer(() => <>
 		<routedContext.Provider value={{ path: "/foo", rest: "/bar", ...noParams }}>
 			<RouterView routes={[]} fallback={() => <reader.read />} />
 		</routedContext.Provider>

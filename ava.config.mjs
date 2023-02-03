@@ -11,6 +11,5 @@ export default {
 	ignoredByWatcher: [
 		"./test_out/**/*"
 	],
-	concurrency: 4,
 	verbose: true
 };

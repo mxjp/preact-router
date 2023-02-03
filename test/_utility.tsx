@@ -1,25 +1,15 @@
-import { ExecutionContext } from "ava";
 import { ComponentChildren, Context, render, RenderableProps } from "preact";
 import { useContext, useEffect, useLayoutEffect, useMemo, useReducer } from "preact/hooks";
 
-export function macro<T extends any[]>(
-	title: (...args: T) => string,
-	fn: (t: ExecutionContext, ...args: T) => void | Promise<void>
-) {
-	return Object.assign(fn, {
-		title: (_: any, ...args: T) => title(...args)
-	}) as (t: ExecutionContext, ...args: T) => void | Promise<void>;
-}
-
 export function waitFrame() {
-	return new Promise(resolve => requestAnimationFrame(resolve));
+	return new Promise(resolve => setTimeout(resolve, 0));
 }
 
 export interface RenderContext {
 	html(): string;
 }
 
-export async function useRender(
+export async function withRenderer(
 	children: () => ComponentChildren,
 	action?: (context: RenderContext) => void | Promise<void>
 ) {
