@@ -1,6 +1,6 @@
 {
 	"name": "@mpt/preact-router",
-	"version": "3.2.0",
+	"version": "3.2.1",
 	"license": "MIT",
 	"author": "Max J. Polster",
 	"repository": "https://github.com/mxjp/preact-router.git",
