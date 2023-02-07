@@ -175,6 +175,9 @@ render(
 
 # Changelog
 
+## 3.3.0
++ Add `routeValueInContext` function.
+
 ## 3.2.0
 + Add `splitPath` function.
 + Add `deriveRoutedContext` function.
