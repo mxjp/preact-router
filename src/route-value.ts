@@ -1,6 +1,6 @@
 import { Inputs, useContext, useMemo } from "preact/hooks";
 import { Route, RouteMatch } from "./route";
-import { routedContext } from "./routed-context";
+import { routedContext, RoutedContext } from "./routed-context";
 
 /**
  * A route with a value.
@@ -25,6 +25,17 @@ export function routeValue<T>(routes: ValueRoute<T>[], inputs?: Inputs) {
 	if (context === undefined) {
 		throw new Error("routeValue must be used in a routed context");
 	}
+	return routeValueInContext(context, routes, inputs);
+}
+
+/**
+ * Select and cache a routed value based on the specified context.
+ *
+ * @param context The routed context.
+ * @param routes The routes to test.
+ * @param inputs The routing is evaluated when any of this inputs, the path or the routes change.
+ */
+export function routeValueInContext<T>(context: RoutedContext, routes: ValueRoute<T>[], inputs?: Inputs) {
 	const allInputs: any[] = [context.rest, routes];
 	if (inputs) {
 		allInputs.push.apply(allInputs, inputs as any[]);
